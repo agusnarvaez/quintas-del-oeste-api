@@ -1,6 +1,18 @@
-import express  from "express"
+//Importing models
+import {mongoose} from './database.js'
+
+// Importing routes
+import lotsRoutes from "./routes/lotsRoutes.js"
+
+import express from "express"
+
+// This code is used to set an Express application. It uses the
+// Node.js path and url modules to get the directory name of the
 import path,{dirname} from "path"
+// current file and convert a file URL to a path. It also uses the
 import { fileURLToPath } from "url"
+
+// Node.js morgan module to log HTTP requests to the console.
 import morgan from "morgan"
 
 //Importing models
