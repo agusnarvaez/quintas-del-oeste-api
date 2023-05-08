@@ -20,11 +20,11 @@ import {mongoose} from './database.js'
 
 // Importing routes
 import lotsRoutes from "./routes/lotsRoutes.js"
-
+import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js"
 const app = express()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // Settings
-app.set('port',process.env.PORT || 3000)
+app.set('port',process.env.PORT || 3030)
 
 // Middlewares
 app.use(morgan('dev')) // Mensaje formateado como dev
@@ -32,6 +32,7 @@ app.use(express.json()) // Para que el servidor entienda json
 
 // Routes
 app.use('/api/lots',lotsRoutes)
+app.use('/api/mercadoPago',mercadoPagoRoutes)
 
 // Static files
 app.use(express.static(path.join(__dirname,'public')))
