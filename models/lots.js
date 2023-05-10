@@ -7,6 +7,7 @@ const lotsSchema = new Schema({
     price: {type: Number, required: true},
     reservationPercentage: {type: Number, required: true},
     financiation: {type: Boolean, required: true},
-    coordinates: {type: Object, required:false}
+    coordinates: {type: Object, required:false},
+    perimeter:{type: Object, required:false}
 })
 export default mongoose.model('Lot',lotsSchema)
