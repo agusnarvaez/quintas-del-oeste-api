@@ -1,9 +1,3 @@
-//Importing models
-import {mongoose} from './database.js'
-
-// Importing routes
-import lotsRoutes from "./routes/lotsRoutes.js"
-
 import express from "express"
 
 // This code is used to set an Express application. It uses the
