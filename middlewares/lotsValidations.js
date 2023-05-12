@@ -1,5 +1,5 @@
-import { check,validationResult } from "express-validator"
-import { getLotByNumber } from "../utils/lotsUtils.js"
+import { check,validationResult,param } from "express-validator"
+import { getLotByNumber,getLotById } from "../utils/lotsUtils.js"
 
 const validateCreate = [
     check("number")
@@ -61,8 +61,29 @@ const validateCreate = [
     (req,res,next) => validateResult(req, res, next)
 ]
 
+const validateGetById = [
+    param('id')
+        .custom(async (value,{req}) => {
+            const result = await getLotById(req)
+            console.log(result)
+            if(!result){
+                throw new Error("El número de lote no existe!")
+            }
+            return true
+        }),
+    (req,res,next) => validateResult(req, res, next)
+]
+const validateDelete = validateGetById
 
 const validateUpdate = [
+    param('id')
+        .custom(async (value,{req}) => {
+            const result = await getLotById(req)
+            if(!result){
+                throw new Error("El número de lote no existe!")
+            }
+            return true
+        }),
     check('area')
         .optional(true)
         .isNumeric().bail().withMessage("El área del lote debe ser un valor numérico")
@@ -99,6 +120,8 @@ const validateUpdate = [
     (req,res,next) => validateResult(req, res, next)
 ]
 
+
+
 const validateResult = (req,res,next) => {
     try{
         validationResult(req).throw()
@@ -108,4 +131,4 @@ const validateResult = (req,res,next) => {
     }
 }
 
-export {validateCreate,validateUpdate}
+export {validateCreate,validateUpdate,validateDelete,validateGetById}
