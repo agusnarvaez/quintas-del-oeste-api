@@ -11,3 +11,13 @@ describe('GET /api/lots',()=>{
             .expect(200, done)
     })
 })
+
+describe('GET /api/lots/:id', ()=>{
+    it('respond with json containing a single lot',(done)=>{
+        request(app)
+            .get('/api/lots/64507b0bf9fe3309c14630d8')
+            .set('Accept','application/json')
+            .expect('Content-Type',/json/)
+            .expect(200, done)
+    })
+})
