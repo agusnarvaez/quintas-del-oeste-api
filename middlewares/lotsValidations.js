@@ -65,7 +65,6 @@ const validateGetById = [
     param('id')
         .custom(async (value,{req}) => {
             const result = await getLotById(req)
-            console.log(result)
             if(!result){
                 throw new Error("El número de lote no existe!")
             }
