@@ -14,7 +14,7 @@ const getLotById = async (req,res,next) => {
       const lot = await Lot.findById(req.params.id)
       return lot
     } catch (e) {
-      console.error(e)
+      //console.error(e)
       return false
     }
 }
