@@ -70,3 +70,37 @@ describe('POST /api/lots/create', ()=>{
             .expect(400, done)
     })
 })
+//* Testeo la actualización de un lote
+describe('PUT /api/lots/update/:id', ()=>{
+    it('respond with json containing a single lot',async ()=>{
+        //* Guardo el último lote
+        const response = await request(app)
+            .get('/api/lots')
+            .set('Accept', 'application/json')
+            .expect(200)
+
+
+        //let lots = response.body.lots
+        var lastLot = response.body.lots[response.body.lots.length-1]
+        var initialArea = lastLot.area
+        var newArea = initialArea + 200
+        var lastLotId = lastLot._id
+
+        //* Actualizo el área del lote
+        request(app)
+            .put('/api/lots/update/'+lastLotId)
+            .send({area: newArea})
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect({status:"Lot updated"})
+
+        //* Verifico que el área se haya actualizado
+        request(app)
+            .get('/api/lots')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect(response.body.lots[response.body.lots.length-1].area==newArea&&response.body.lots[response.body.lots.length-1].area!=initialArea)
+    })
+
+
+})
