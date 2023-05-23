@@ -79,8 +79,6 @@ describe('PUT /api/lots/update/:id', ()=>{
             .set('Accept', 'application/json')
             .expect(200)
 
-
-        //let lots = response.body.lots
         var lastLot = response.body.lots[response.body.lots.length-1]
         var initialArea = lastLot.area
         var newArea = initialArea + 200
@@ -102,5 +100,24 @@ describe('PUT /api/lots/update/:id', ()=>{
             .expect(response.body.lots[response.body.lots.length-1].area==newArea&&response.body.lots[response.body.lots.length-1].area!=initialArea)
     })
 
+    //* Testeo que no se pueda actualizar un lote que no existe
+    it('respond with json containing errors',async(done)=>{
+        request(app)
+            .put('/api/lots/update/nonExistingLot')
+            .send({area: 100})
+            .set('Accept', 'application/json')
+            .expect({
+                "errors": [
+                    {
+                    "type": "field",
+                    "value": "nonExisting",
+                    "msg": "El número de lote no existe!",
+                    "path": "id",
+                    "location": "params"
+                    }
+                ]
+                })
+            .expect(400,done)
+    })
 
 })
