@@ -1,8 +1,13 @@
 import express from "express"
 const router = express.Router()
 
-import lotsController from "../controllers/lotsController.js"
+//* Middlewares
 import {validateCreate,validateUpdate,validateDelete,validateGetById} from "../middlewares/lotsValidations.js"
+
+//* Controllers
+import lotsController from "../controllers/lotsController.js"
+
+//************************************************************************
 
 router.get('/',lotsController.index)
 

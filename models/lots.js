@@ -7,7 +7,7 @@ const lotsSchema = new Schema({
     price: {type: Number, required: true,min:100},
     reservationPercentage: {type: Number, required: true, min:0,max:100},
     financiation: {type: Boolean, required: true, default: false},
-    coordinates: {lat:Number, lng: Number},
-    perimeter:{x1:Number,x2:Number,y1:Number,y2:Number}
+    coordinates: {lat:{type:Number, default:0}, lng: {type:Number, default:0}},
+    perimeter:{x1:{type:Number, default:0},x2:{type:Number, default:0},y1:{type:Number, default:0},y2:{type:Number, default:0}}
 })
 export default mongoose.model('Lot',lotsSchema)

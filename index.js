@@ -34,3 +34,5 @@ app.use(express.static(path.join(__dirname,'public')))
 app.listen(app.get('port'),()=>{
     console.log("Server on port http://localhost:"+app.get('port'))
 })
+
+export {app}
