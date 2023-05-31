@@ -52,12 +52,12 @@ const validateCreate = [
     check('financiation')
         .exists().bail().withMessage("El campo no existe!")
         .not().isEmpty().bail().withMessage("El financiamiento es requerido!"),
-    check('lat').isNumeric().bail().withMessage("La latitud del lote debe ser un valor numérico"),
-    check('lng').isNumeric().bail().withMessage("La longitud del lote debe ser un valor numérico"),
-    check('x1').isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
-    check('x2').isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
-    check('y1').isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
-    check('y2').isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
+    check('lat').optional(true).bail().isNumeric().withMessage("La latitud del lote debe ser un valor numérico"),
+    check('lng').optional(true).isNumeric().bail().withMessage("La longitud del lote debe ser un valor numérico"),
+    check('x1').optional(true).isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
+    check('x2').optional(true).isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
+    check('y1').optional(true).isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
+    check('y2').optional(true).isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
     (req,res,next) => validateResult(req, res, next)
 ]
 
