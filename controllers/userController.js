@@ -1,5 +1,5 @@
-import  User  from '../models/users.js'
-import { getAllUsers } from '../utils/usersUtils.js'
+import  User  from '../models/user.model.js'
+import { getAllUsers } from '../utils/userUtils.js'
 const controller = {
     index: async (req, res) => {
         const users = await getAllUsers()
@@ -7,11 +7,17 @@ const controller = {
     },
     create: async (req, res) => {
         const { name,lastName,email,password } = req.body
-        const user = new User({ name,lastName,email,password })
+        try{
+            const newUser = new User({ name,lastName,email,password })
 
-        await user.save()
+            await newUser.save()
 
-        res.json({status:"User saved"})
+            res.json({status:"User saved"})
+
+        }catch(err){
+            console.log(err)
+        }
+
     },
     read: async (req, res) => {
         const user = await User.findById(req.params.id)
