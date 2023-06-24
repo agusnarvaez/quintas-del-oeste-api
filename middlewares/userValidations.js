@@ -1,5 +1,5 @@
 import { check,validationResult,param } from "express-validator"
-import { getUserById } from "../utils/usersUtils.js"
+import { getUserById,getAllUsers } from "../utils/userUtils.js"
 
 const validateCreate = [
     check("name")
@@ -14,11 +14,22 @@ const validateCreate = [
         .exists().bail().withMessage("El campo no existe")
         .isString().bail().withMessage("El email debe ser un valor alfanumérico")
         .not().isEmpty().bail().withMessage("El email es requerido")
-        .isEmail().bail().withMessage("El email debe ser un email válido"),
+        .isEmail().bail().withMessage("El email debe ser un email válido")
+        .custom(async (value,{req}) => {
+            const users = await getAllUsers()
+            if(users.some(user => user.email === value)){
+                throw new Error("El email ya se encuentra registrado!")
+            }
+            return true
+        })
+        ,
     check('password')
         .exists().bail().withMessage("El campo no existe")
         .isString().bail().withMessage("La contraseña debe ser un valor alfanumérico")
         .not().isEmpty().bail().withMessage("La contraseña es requerida"),
+    check('admin')
+        .optional(true)
+        .isBoolean().bail().withMessage("El campo admin debe ser un valor booleano"),
     (req,res,next) => validateResult(req, res, next)
 ]
 
