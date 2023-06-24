@@ -6,10 +6,11 @@ const controller = {
 
         try {
             const response = await axios.post('http://localhost:3030/api/user/create', req.body);
-            res.send('Usuario creado exitosamente');
+            console.log(response.data)
+            res.json(response.data)
           } catch (error) {
             console.log(error)
-            res.status(500).send('Error al crear el usuario');
+            res.status(500).send('Error al crear el usuario')
           }
     },
     login: async (req, res) => {

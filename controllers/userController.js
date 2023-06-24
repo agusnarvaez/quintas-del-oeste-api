@@ -1,4 +1,5 @@
 import  User  from '../models/user.model.js'
+import bcrypt from 'bcryptjs'
 import { getAllUsers } from '../utils/userUtils.js'
 const controller = {
     index: async (req, res) => {
@@ -6,13 +7,36 @@ const controller = {
         res.json({users})
     },
     create: async (req, res) => {
-        const { name,lastName,email,password } = req.body
+        //
+        const { name,lastName,email,password,admin } = req.body
+
         try{
-            const newUser = new User({ name,lastName,email,password })
+            // Encripto la contraseña
+            const passHashed = await bcrypt.hash(password,10)
 
-            await newUser.save()
+            // Creo el usuario
+            const newUser = new User({
+                name,
+                lastName,
+                email,
+                password:passHashed,
+                admin
+            })
 
-            res.json({status:"User saved"})
+            // Guardo el usuario
+            const userSaved = await newUser.save()
+
+            // Devuelvo el usuario guardado
+            res.json({
+                status:"User saved",
+                user:{
+                    name: userSaved.name,
+                    lastName: userSaved.lastName,
+                    email: userSaved.email,
+                    admin: userSaved.admin,
+                    createdAt: userSaved.createdAt,
+                    updatedAt: userSaved.updatedAt
+            }})
 
         }catch(err){
             console.log(err)
