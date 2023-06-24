@@ -1,4 +1,4 @@
-import  Lot  from '../models/lots.js'
+import  Lot  from '../models/lots.model.js'
 import { getAllLots } from '../utils/lotsUtils.js'
 const controller = {
     index: async (req, res) => {
