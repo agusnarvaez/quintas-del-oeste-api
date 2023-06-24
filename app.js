@@ -8,7 +8,7 @@ import { fileURLToPath } from "url"
 
 // Node.js morgan module to log HTTP requests to the console.
 import morgan from "morgan"
-
+import cookieParser from "cookie-parser"
 
 // Importing routes
 import lotsRoutes from "./routes/lots.Routes.js"
@@ -23,7 +23,7 @@ app.set('port',process.env.PORT || 3030)
 // Middlewares
 app.use(morgan('dev')) // Mensaje formateado como dev
 app.use(express.json()) // Para que el servidor entienda json
-
+app.use(cookieParser()) // Para que el servidor entienda cookies
 // Routes
 app.use('/api/lots',lotsRoutes)
 app.use('/api/mercadoPago',mercadoPagoRoutes)

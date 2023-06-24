@@ -11,11 +11,13 @@ const getAllUsers = async () => {
 }
 const getUserById = async (req,res,next) => {
     try {
-      const lot = await User.findById(req.params.id)
-      return lot
+
+      const user = await User.findById(req.params.id)
+
+      return user
     } catch (e) {
       //console.error(e)
-      return false
+      return res.status(400).json({message:"Usuario no encontrado!"})
     }
 }
 

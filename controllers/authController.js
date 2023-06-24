@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import bcrypt from 'bcryptjs'
 
+import User from '../models/user.model.js'
 import {createAccessToken} from '../utils/jwt.js'
 
 const controller = {
@@ -28,12 +29,12 @@ const controller = {
 
       try {
         const userFound = await (await axios.post('http://localhost:3030/api/user/get', {email:email})).data
-        console.log(userFound)
+
         const isMatch = await bcrypt.compare(password,userFound.password)
 
         if(!isMatch) return res.status(400).json({message:"Usuario o contraseña incorrectos!"})
 
-        const token = await createAccessToken({id:userFound.id})
+        const token = await createAccessToken({_id:userFound._id})
 
         res.cookie('token',token)
 
@@ -57,6 +58,22 @@ const controller = {
     logout: async (req, res) => {
       res.cookie('token','',{expires:new Date(0)})
       return res.status(200).json({message:"Logged out"})
+    },
+    profile: async (req, res) => {
+      console.log(req.user)
+      const userFound = await User.findById(req.user._id)
+
+      if(!userFound) return res.status(400).json({message:"Usuario no encontrado!"})
+
+      return res.status(200).json({
+        id: userFound._id,
+        name: userFound.name,
+        lastName: userFound.lastName,
+        email: userFound.email,
+        admin: userFound.admin,
+        createdAt: userFound.createdAt,
+        updatedAt: userFound.updatedAt
+      })
     }
 }
 
