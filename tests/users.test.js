@@ -3,10 +3,10 @@ import assert from 'assert'
 import {app} from '../index.js'
 
 //* Testeo que entregue todos los usuarios
-describe('GET /api/users',()=>{
-    it('respond with json containing a list of all users',(done)=>{
+describe('GET /api/user',()=>{
+    it('respond with json containing a list of all user',(done)=>{
         request(app)
-            .get('/api/users')
+            .get('/api/user')
             .set('Accept','application/json')
             .expect('Content-Type',/json/)
             .expect(200, done)
@@ -14,17 +14,17 @@ describe('GET /api/users',()=>{
 })
 
 //* Testeo la obtención de un usuario
-describe('GET /api/users/:id', ()=>{
-    it('respond with json containing a single lot',(done)=>{
+describe('GET /api/user/:id', ()=>{
+    it('respond with json containing a single user',(done)=>{
         request(app)
-            .get('/api/users/6486176fc105f03ae40e2b95')
+            .get('/api/user/6486176fc105f03ae40e2b95')
             .set('Accept','application/json')
             .expect('Content-Type',/json/)
             .expect(200, done)
     })
     it('respond with json containing errors',()=>{
         request(app)
-            .get('/api/users/nonExistingUser')
+            .get('/api/user/nonExistingUser')
             .set('Accept','application/json')
             .expect('Content-Type',/json/)
             .expect({
@@ -41,10 +41,10 @@ describe('GET /api/users/:id', ()=>{
 })
 
 //* Testeo la creación de un usuario
-describe('POST /api/users/create', ()=>{
+describe('POST /api/user/create', ()=>{
     it('respond with message of success',(done)=>{
         request(app)
-            .post('/api/users/create')
+            .post('/api/user/create')
             .send({
                 "name":"NombreTest",
                 "lastName":"ApellidoTest",
@@ -58,7 +58,7 @@ describe('POST /api/users/create', ()=>{
 
     it('respond with code 400 on bad request',(done)=>{
         request(app)
-            .post('/api/users/create')
+            .post('/api/user/create')
             .send({})
             .set('Accept', 'application/json')
             .expect('Content-Type',/json/)
@@ -95,11 +95,11 @@ describe('POST /api/users/create', ()=>{
 })
 
 //* Testeo la actualización de un usuario
-describe('PUT /api/users/update/:id', ()=>{
-    it('respond with json containing a single lot',async ()=>{
+describe('PUT /api/user/update/:id', ()=>{
+    it('respond with json containing a single user',async ()=>{
         //* Guardo el último usuario
         const response = await request(app)
-            .get('/api/users')
+            .get('/api/user')
             .set('Accept', 'application/json')
             .expect(200)
 
@@ -110,7 +110,7 @@ describe('PUT /api/users/update/:id', ()=>{
 
         //* Actualizo el área del usuario
         await request(app)
-            .put('/api/users/update/'+id)
+            .put('/api/user/update/'+id)
             .send({name: newName})
             .set('Accept', 'application/json')
             .expect(200)
@@ -118,7 +118,7 @@ describe('PUT /api/users/update/:id', ()=>{
 
         //* Verifico que el área se haya actualizado
         const updatedLastUser = await request(app)
-            .get('/api/users/'+id)
+            .get('/api/user/'+id)
             .set('Accept', 'application/json')
             .expect(200)
 
@@ -129,7 +129,7 @@ describe('PUT /api/users/update/:id', ()=>{
     //* Testeo que no se pueda actualizar un usuario que no existe
     it('respond with json containing errors',async()=>{
         await request(app)
-            .put('/api/users/update/nonExistingUser')
+            .put('/api/user/update/nonExistingUser')
             .send({area: 100})
             .set('Accept', 'application/json')
             .expect({
@@ -148,11 +148,11 @@ describe('PUT /api/users/update/:id', ()=>{
 })
 
 //* Testeo la eliminación de un usuario
-describe("DELETE /api/users/delete/:id",()=>{
+describe("DELETE /api/user/delete/:id",()=>{
     it('should respond with a json',async ()=>{
         //* Guardo el último usuario
         const response = await request(app)
-            .get('/api/users')
+            .get('/api/user')
             .set('Accept', 'application/json')
             .expect(200)
 
@@ -161,7 +161,7 @@ describe("DELETE /api/users/delete/:id",()=>{
 
         //* Elimino el último usuario
         await request(app)
-            .delete('/api/users/delete/'+lastUserId)
+            .delete('/api/user/delete/'+lastUserId)
             .set('Accept', 'application/json')
             .expect(200)
             .expect({status:"User deleted"})
