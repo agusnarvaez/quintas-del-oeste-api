@@ -19,5 +19,13 @@ const getUserById = async (req,res,next) => {
     }
 }
 
+const getUserByEmail = async (email) => {
+  try {
+    const user = await User.find({email: email})
+    return user
+  }catch(e){
+    console.error(e)
+  }
+}
 
-export {getAllUsers, getUserById}
+export {getAllUsers, getUserById,getUserByEmail}

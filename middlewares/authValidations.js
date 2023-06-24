@@ -1,11 +1,11 @@
 import { check,validationResult } from "express-validator"
-import { getAllUsers } from "../utils/userUtils.js"
+import { getUserByEmail } from "../utils/userUtils.js"
 
 const validateRegister = [
     check('email')
         .custom(async (value,{req}) => {
-            const users = await getAllUsers()
-            if(users.some(user => user.email === value)){
+            const user = await getUserByEmail(value)
+            if(user.length > 0){
                 throw new Error("El email ya se encuentra registrado!")
             }
             return true

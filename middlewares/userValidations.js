@@ -1,5 +1,5 @@
 import { check,validationResult,param } from "express-validator"
-import { getUserById,getAllUsers } from "../utils/userUtils.js"
+import { getUserById,getUserByEmail } from "../utils/userUtils.js"
 
 const validateCreate = [
     check("name")
@@ -16,10 +16,13 @@ const validateCreate = [
         .not().isEmpty().bail().withMessage("El email es requerido")
         .isEmail().bail().withMessage("El email debe ser un email válido")
         .custom(async (value,{req}) => {
-            const users = await getAllUsers()
-            if(users.some(user => user.email === value)){
+            const user = await getUserByEmail(value)
+            if(user.length > 0){
                 throw new Error("El email ya se encuentra registrado!")
             }
+/*             if(users.some(user => user.email === value)){
+                throw new Error("El email ya se encuentra registrado!")
+            } */
             return true
         })
         ,
