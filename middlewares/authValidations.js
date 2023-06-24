@@ -26,7 +26,11 @@ const authRequired = (req,res,next) => {
 
         next()
     })
+}
 
+const validateApiKey = (req,res,next) => {
+
+    next()
 }
 
 const validateResult = (req,res,next) => {
