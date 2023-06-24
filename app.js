@@ -11,9 +11,10 @@ import morgan from "morgan"
 
 
 // Importing routes
-import lotsRoutes from "./routes/lotsRoutes.js"
-import mercadoPagoRoutes from "./routes/mercadoPagoRoutes.js"
-import userRoutes from "./routes/userRoutes.js"
+import lotsRoutes from "./routes/lots.Routes.js"
+import mercadoPagoRoutes from "./routes/mercadoPago.Routes.js"
+import userRoutes from "./routes/user.Routes.js"
+import authRoutes from "./routes/auth.Routes.js"
 const app = express()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // Settings
@@ -26,7 +27,8 @@ app.use(express.json()) // Para que el servidor entienda json
 // Routes
 app.use('/api/lots',lotsRoutes)
 app.use('/api/mercadoPago',mercadoPagoRoutes)
-app.use('/api/users',userRoutes)
+app.use('/api/user',userRoutes)
+app.use('/api/auth',authRoutes)
 // Static files
 app.use(express.static(path.join(__dirname,'public')))
 
