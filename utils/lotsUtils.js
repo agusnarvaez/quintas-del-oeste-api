@@ -1,4 +1,4 @@
-import  Lot  from '../models/lots.js'
+import  Lot  from '../models/lots.model.js'
 
 //* Getters
 const getAllLots = async () => {
