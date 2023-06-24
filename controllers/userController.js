@@ -52,6 +52,17 @@ const controller = {
             user:user
         })
     },
+    getByEmail: async (req, res) => {
+        console.log(req.body)
+        const userFound = await User.findOne({email:req.body.email})
+        if(!userFound) return res.status(400).json({message:"Usuario o contraseña inválidos!"})
+
+        res.send(userFound)
+        /* res.json({
+            status:"User read",
+            user:user
+        }) */
+    },
     update: async (req, res) => {
         const { name,lastName,email,password } = req.body
         const userUpdated = { name,lastName,email,password }

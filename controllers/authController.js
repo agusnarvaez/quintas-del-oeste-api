@@ -1,4 +1,7 @@
 import axios from 'axios'
+
+import bcrypt from 'bcryptjs'
+
 import {createAccessToken} from '../utils/jwt.js'
 
 const controller = {
@@ -21,7 +24,35 @@ const controller = {
     },
     login: async (req, res) => {
 
-        res.send("auth/login")
+      const { email,password } = req.body
+
+      try {
+        const userFound = await (await axios.post('http://localhost:3030/api/user/get', {email:email})).data
+        console.log(userFound)
+        const isMatch = await bcrypt.compare(password,userFound.password)
+
+        if(!isMatch) return res.status(400).json({message:"Usuario o contraseña incorrectos!"})
+
+        const token = await createAccessToken({id:userFound.id})
+
+        res.cookie('token',token)
+
+        res.json({
+          status:"User logged",
+          user:{
+            id: userFound._id,
+            name: userFound.name,
+            lastName: userFound.lastName,
+            email: userFound.email,
+            admin: userFound.admin,
+            createdAt: userFound.createdAt,
+            updatedAt: userFound.updatedAt
+          }
+        })
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({message:"Usuario o contraseña incorrectos!"})
+      }
     }
 }
 

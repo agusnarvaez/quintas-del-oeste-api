@@ -13,6 +13,8 @@ router.get('/',userController.index)
 
 router.get('/:id',validateGetById,userController.read)
 
+router.post('/get',userController.getByEmail)
+
 router.post('/create',validateCreate,userController.create)
 
 router.put('/update/:id',validateUpdate,userController.update)
