@@ -20,7 +20,8 @@
     "mongoose": "^7.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "testcafe": "^2.6.2"
   },
   "type": "module"
 }
