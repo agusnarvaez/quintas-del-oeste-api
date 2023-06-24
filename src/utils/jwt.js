@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import credentials from '../credentials.js'
+import credentials from '../../credentials.js'
 
 const createAccessToken = (payload) => {
   return new Promise((resolve, reject) => {

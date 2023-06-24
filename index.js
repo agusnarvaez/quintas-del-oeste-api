@@ -1,4 +1,4 @@
-import app from "./app.js"
+import app from "./src/app.js"
 import {connectDB} from "./database.js"
 // Sarting the server
 

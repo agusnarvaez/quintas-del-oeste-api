@@ -1,5 +1,5 @@
 import mercadopago from "mercadopago"
-import credentials from "../credentials.js"
+import credentials from "../../credentials.js"
 
 let server = process.env.SERVER || 'http://localhost:3030'
 

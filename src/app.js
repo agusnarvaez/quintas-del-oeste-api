@@ -11,10 +11,10 @@ import morgan from "morgan"
 import cookieParser from "cookie-parser"
 
 // Importing routes
-import lotsRoutes from "./routes/lots.Routes.js"
-import mercadoPagoRoutes from "./routes/mercadoPago.Routes.js"
-import userRoutes from "./routes/user.Routes.js"
-import authRoutes from "./routes/auth.Routes.js"
+import lotsRoutes from "./routes/lots.routes.js"
+import mercadoPagoRoutes from "./routes/mercadoPago.routes.js"
+import userRoutes from "./routes/user.routes.js"
+import authRoutes from "./routes/auth.routes.js"
 const app = express()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // Settings
