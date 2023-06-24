@@ -30,6 +30,7 @@ const controller = {
             res.json({
                 status:"User saved",
                 user:{
+                    id: userSaved._id,
                     name: userSaved.name,
                     lastName: userSaved.lastName,
                     email: userSaved.email,
