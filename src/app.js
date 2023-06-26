@@ -9,7 +9,7 @@ import { fileURLToPath } from "url"
 // Node.js morgan module to log HTTP requests to the console.
 import morgan from "morgan"
 import cookieParser from "cookie-parser"
-
+import cors from "cors"
 // Importing routes
 import lotsRoutes from "./routes/lots.routes.js"
 import mercadoPagoRoutes from "./routes/mercadoPago.routes.js"
@@ -21,6 +21,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 app.set('port',process.env.PORT || 3030)
 
 // Middlewares
+app.use(cors({
+    origin: 'http://localhost:3000'
+})) // Para que el servidor entienda cors
 app.use(morgan('dev')) // Mensaje formateado como dev
 app.use(express.json()) // Para que el servidor entienda json
 app.use(cookieParser()) // Para que el servidor entienda cookies
