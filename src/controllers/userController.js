@@ -65,7 +65,7 @@ const controller = {
         const userFound = await User.findOne({email:req.body.email})
 
         //* Si no existe el usuario devuelvo un error
-        if(!userFound) return res.status(400).json({message:"Usuario o contraseña inválidos!"})
+        if(!userFound) return res.status(400).json({errors:[{msg:"Usuario o contraseña inválidos!"}]})
 
         //* Si existe el usuario devuelvo el usuario
         res.send(userFound)

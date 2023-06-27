@@ -41,7 +41,7 @@ const controller = {
 
         //* Si no existe el usuario devuelvo un error
         const isMatch = await bcrypt.compare(password,userFound.password)
-        if(!isMatch) return res.status(400).json({message:"Usuario o contraseña incorrectos!"})
+        if(!isMatch) return res.status(400).json({errors:[{msg:"Usuario o contraseña inválidos!"}]})
 
         //* Creo el token de acceso (JWT) y lo guardo en una cookie
         const token = await createAccessToken({_id:userFound._id})
@@ -62,7 +62,8 @@ const controller = {
         })
       } catch (error) {
         //* Si hay errores los devuelvo
-        res.status(400).json({message:"Usuario o contraseña incorrectos!"})
+        console.log(error.response.data)
+        res.status(500).json({errors:error.response.data.errors})
       }
     },
     logout: async (req, res) => {
