@@ -19,8 +19,7 @@ const controller = {
 
           res.json(response.data)
         } catch (error) {
-          console.log(error)
-          res.status(500).send('Error al crear el usuario')
+          res.status(500).json({errors:error.response.data.errors})
         }
     },
     login: async (req, res) => {
