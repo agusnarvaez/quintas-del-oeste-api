@@ -1,38 +1,51 @@
 import express from "express"
 
-// This code is used to set an Express application. It uses the
-// Node.js path and url modules to get the directory name of the
+//* Este código se utiliza para configurar una aplicación Express. Utiliza el
+//* Node.js path y url módulos para obtener el nombre del directorio del archivo actual
 import path,{dirname} from "path"
-// current file and convert a file URL to a path. It also uses the
-import { fileURLToPath } from "url"
 
-// Node.js morgan module to log HTTP requests to the console.
+//* Archivo actual y convierte una URL de archivo en una ruta
+import { fileURLToPath } from "url"
+//* Utilizo el módulo de morgan para registrar solicitudes HTTP en la consola
 import morgan from "morgan"
+
+//* Utilizo el módulo de cookie-parser para manejar las cookies
 import cookieParser from "cookie-parser"
+
+//* Utilizo el módulo de cors para permitir solicitudes de otros dominios
 import cors from "cors"
-// Importing routes
+
+//* Importo rutas de la API
 import lotsRoutes from "./routes/lots.routes.js"
 import mercadoPagoRoutes from "./routes/mercadoPago.routes.js"
 import userRoutes from "./routes/user.routes.js"
 import authRoutes from "./routes/auth.routes.js"
+
+//* Inicializo la aplicación
 const app = express()
+
+//* Obtengo el nombre del directorio del archivo actual
 const __dirname = dirname(fileURLToPath(import.meta.url))
-// Settings
+
+//* Configuro el puerto
 app.set('port',process.env.PORT || 3030)
 
-// Middlewares
+//* Inicializo middlewares
 app.use(cors({
     origin: 'http://localhost:3000'
 })) // Para que el servidor entienda cors
 app.use(morgan('dev')) // Mensaje formateado como dev
 app.use(express.json()) // Para que el servidor entienda json
 app.use(cookieParser()) // Para que el servidor entienda cookies
-// Routes
+
+//* Rutas de la API
 app.use('/api/lots',lotsRoutes)
 app.use('/api/mercadoPago',mercadoPagoRoutes)
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
-// Static files
+
+//* Configuro la carpeta public para que sea accesible desde el navegador
 app.use(express.static(path.join(__dirname,'public')))
 
+//* Exporto la aplicación
 export default app

@@ -16,13 +16,11 @@ const validateCreate = [
         .not().isEmpty().bail().withMessage("El email es requerido")
         .isEmail().bail().withMessage("El email debe ser un email válido")
         .custom(async (value,{req}) => {
+            //* Verifica que el email no esté registrado
             const user = await getUserByEmail(value)
             if(user.length > 0){
                 throw new Error("El email ya se encuentra registrado!")
             }
-/*             if(users.some(user => user.email === value)){
-                throw new Error("El email ya se encuentra registrado!")
-            } */
             return true
         })
         ,
@@ -43,6 +41,7 @@ const validateCreate = [
 const validateGetById = [
     param('id')
         .custom(async (value,{req}) => {
+            //* Verifica que el usuario exista
             const result = await getUserById(req)
             if(!result){
                 throw new Error("El usuario no existe!")

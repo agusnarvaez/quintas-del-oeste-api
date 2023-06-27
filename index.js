@@ -1,11 +1,15 @@
+//* Importo la aplicación
 import app from "./src/app.js"
+//* Importo la conexión a la base de datos
 import {connectDB} from "./database.js"
-// Sarting the server
 
+//* Conecto la base de datos
 connectDB()
 
+//* Inicializo el servidor
 app.listen(app.get('port'),()=>{
     console.log("Server on port http://localhost:"+app.get('port'))
 })
 
+//* Exporto la aplicación
 export {app}

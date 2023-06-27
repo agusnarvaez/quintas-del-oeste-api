@@ -1,15 +1,22 @@
+//* 1- Importar mercadopago
 import mercadopago from "mercadopago"
+//* 2- Importar credenciales
 import credentials from "../../credentials.js"
 
+//* 3- Obtener el server desde las variables de entorno
 let server = process.env.SERVER || 'http://localhost:3030'
 
+//* 4- Obtener la url de feedback
 const feedback = `${server}/api/mercadoPago/feedback`
 
+//* 5- Crear la función mp que recibe un item, cuotas y shipping
 const mp = async (item,cuotes,shipping) => {
     try {
+        //* 6- Configurar mercadopago con el access_token
         mercadopago.configure({
             access_token: credentials.mercadoPago
         })
+        //* 7- Crear la configuración de la preferencia
         let config = {
             items: item,
             back_urls: {
@@ -27,6 +34,8 @@ const mp = async (item,cuotes,shipping) => {
             }, */
             statement_descriptor: "Reserva Quintas"
         }
+
+        //* 8- Crear la preferencia para obtener el link de pago
         let preference = await mercadopago.preferences.create(config)
         return preference
 

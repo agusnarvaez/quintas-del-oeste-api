@@ -4,19 +4,20 @@ const router = express.Router()
 //* Middlewares
 import {validateCreate,validateUpdate,validateDelete,validateGetById} from "../middlewares/lotsValidations.js"
 import { authRequired } from "../middlewares/authValidations.js"
+
 //* Controllers
 import lotsController from "../controllers/lotsController.js"
 
 //************************************************************************
+//* Rutas
+router.get('/',lotsController.index) //* Ruta para obtener todos los lotes
 
-router.get('/',lotsController.index)
+router.get('/:id',validateGetById,lotsController.read) //* Ruta para obtener un lote por ID
 
-router.get('/:id',validateGetById,lotsController.read)
+router.post('/create',authRequired,validateCreate,lotsController.create) //* Ruta para crear un lote
 
-router.post('/create',authRequired,validateCreate,lotsController.create)
+router.put('/update/:id',validateUpdate,lotsController.update) //* Ruta para actualizar un lote
 
-router.put('/update/:id',validateUpdate,lotsController.update)
-
-router.delete("/delete/:id",authRequired,validateDelete,lotsController.delete)
+router.delete("/delete/:id",authRequired,validateDelete,lotsController.delete) //* Ruta para eliminar un lote
 
 export default router
