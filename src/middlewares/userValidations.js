@@ -29,7 +29,11 @@ const validateCreate = [
     check('password')
         .exists().bail().withMessage("El campo no existe")
         .isString().bail().withMessage("La contraseña debe ser un valor alfanumérico")
-        .not().isEmpty().bail().withMessage("La contraseña es requerida"),
+        .not().isEmpty().bail().withMessage("La contraseña es requerida")
+        .isLength({min:8}).bail().withMessage("La contraseña debe tener al menos 8 caracteres")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+            .bail()
+            .withMessage("La contraseña debe tener al menos una mayúscula, una minúscula y un número"),
     check('admin')
         .optional(true)
         .isBoolean().bail().withMessage("El campo admin debe ser un valor booleano"),
