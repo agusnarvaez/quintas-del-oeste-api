@@ -7,8 +7,8 @@ import bcrypt from 'bcryptjs'
 //* Importo el modelo de usuario
 import User from '../models/user.model.js'
 
-//* Importo la funcion para crear el token de acceso
-import {createAccessToken} from '../utils/jwt.js'
+//* Importo la funcion para crear y de verificar el token de acceso
+import {createAccessToken,verifyAccessToken} from '../utils/jwt.js'
 
 const controller = {
 
@@ -21,7 +21,7 @@ const controller = {
         const response = await axios.post('http://localhost:3030/api/user/create', req.body)
 
         //* Creo el token de acceso (JWT) y lo guardo en una cookie
-        const token = await createAccessToken({id:response.data.user.id})
+        const token = await createAccessToken({id:response.data.user._id})
         res.cookie('token',token)
 
         //* Devuelvo el usuario creado
@@ -51,7 +51,7 @@ const controller = {
         res.json({
           status:"User logged",
           user:{
-            id: userFound._id,
+            _id: userFound._id,
             name: userFound.name,
             lastName: userFound.lastName,
             email: userFound.email,
@@ -83,7 +83,7 @@ const controller = {
 
       //* Devuelvo el usuario logueado
       return res.status(200).json({
-        id: userFound._id,
+        _id: userFound._id,
         name: userFound.name,
         lastName: userFound.lastName,
         email: userFound.email,
@@ -91,6 +91,34 @@ const controller = {
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt
       })
+    },
+    verify: async (req, res) => {
+      console.log("En verify")
+      //* Obtengo el token de la cookie
+      const {token}=req.cookies
+
+      //* Si no hay token devuelvo un error
+      if(!token) return res.status(401).json({message:"No autorozado!"})
+
+      //* Verifico el token
+      verifyAccessToken(
+        token,
+        async (err,user)=>{
+          //* Si hay un error devuelvo un error
+          if(err) return res.status(401).json({message:"No autorozado!"})
+
+          //* Busco el usuario en la base de datos
+          const userFound = await User.findById(user._id)
+
+          //* Si no existe el usuario devuelvo un error
+          if(!userFound) return res.status(401).json({message:"Usuario no encontrado!"})
+
+          return res.status(200).json({
+            _id: userFound._id,
+            name: userFound.name,
+            email: userFound.email
+          })}
+        )
     }
 }
 
