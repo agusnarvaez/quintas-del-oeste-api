@@ -22,4 +22,11 @@ const createAccessToken = (payload) => {
   })
 }
 
-export {createAccessToken}
+const verifyAccessToken = (token,callback) => {
+  jwt.verify(
+    token,
+    credentials.jwtSecret,
+    callback)
+}
+
+export {createAccessToken,verifyAccessToken}
