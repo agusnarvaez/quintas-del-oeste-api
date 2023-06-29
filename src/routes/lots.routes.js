@@ -16,7 +16,7 @@ router.get('/:id',validateGetById,lotsController.read) //* Ruta para obtener un 
 
 router.post('/create',authRequired,validateCreate,lotsController.create) //* Ruta para crear un lote
 
-router.put('/update/:id',validateUpdate,lotsController.update) //* Ruta para actualizar un lote
+router.put('/update/:id',authRequired,validateUpdate,lotsController.update) //* Ruta para actualizar un lote
 
 router.delete("/delete/:id",authRequired,validateDelete,lotsController.delete) //* Ruta para eliminar un lote
 
