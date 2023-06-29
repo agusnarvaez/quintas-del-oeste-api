@@ -7,15 +7,18 @@ const controller = {
         res.json({lots})
     },
     create: async (req, res) => {
-
         //* Crea un lote nuevo en la base de datos
-        const { number, area, price, reservationPercentage, financiation, coordinates } = req.body
-        const lot = new Lot({ number, area, price, reservationPercentage, financiation, coordinates })
+        const { number, area, price, reservationPercentage, financiation, coordinates,perimeter } = req.body
+        const lot = new Lot({ number, area, price, reservationPercentage, financiation, coordinates,perimeter })
         try{
-            await lot.save()
-            res.json({status:"Lote guaradado"})
+            const lotSaved = await lot.save()
+            res.json({status:"Lote guaradado", lot:lotSaved})
         }catch(error){
-            res.json({status:"Lote no guaradado!"})
+            console.log(error)
+            res.status(400).json({
+                status:"Lote no guaradado!",
+                error:error
+            })
         }
 
     },
