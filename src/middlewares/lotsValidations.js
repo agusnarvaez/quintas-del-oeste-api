@@ -37,8 +37,8 @@ const validateCreate = [
         .not().isEmpty().bail().withMessage("El precio del lote es requerido")
         .isNumeric().bail().withMessage("El precio del lote debe ser un valor numérico")
         .custom((value,{req}) => {
-            if(value < 100){
-                //* Si el precio es menor a 100, devuelve un error
+            if(value < 10000){
+                //* Si el precio es menor a 10000, devuelve un error
                 throw new Error("El precio debe ser mayor a 100")
             }
             return true
@@ -59,15 +59,20 @@ const validateCreate = [
         .not().isEmpty().bail().withMessage("El financiamiento es requerido!"),
     check('lat').optional(true).bail().isNumeric().withMessage("La latitud del lote debe ser un valor numérico"),
     check('lng').optional(true).isNumeric().bail().withMessage("La longitud del lote debe ser un valor numérico"),
-    check('x1').optional(true).isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
-    check('x2').optional(true).isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
-    check('y1').optional(true).isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
-    check('y2').optional(true).isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
+    check('perimeter.x1.lat').optional(true).isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
+    check('perimeter.x1.lng').optional(true).isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
+    check('perimeter.x2.lat').optional(true).isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
+    check('perimeter.x2.lng').optional(true).isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
+    check('perimeter.y1.lat').optional(true).isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
+    check('perimeter.y1.lng').optional(true).isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
+    check('perimeter.y2.lat').optional(true).isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
+    check('perimeter.y2.lng').optional(true).isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
     (req,res,next) => validateResult(req, res, next)
 ]
 
 const validateGetById = [
     param('id')
+        .isAlphanumeric().bail().withMessage("El id del lote debe ser un valor alfanumérico")
         .custom(async (value,{req}) => {
             //* Verifica que el número de lote esté registrado
             const result = await getLotById(req)
