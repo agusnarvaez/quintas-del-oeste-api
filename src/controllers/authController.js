@@ -75,7 +75,6 @@ const controller = {
     },
     profile: async (req, res) => {
 
-      console.log(req.user)
       //* Busco el usuario en la base de datos
       const userFound = await User.findById(req.user._id)
       //* Si no existe el usuario devuelvo un error
