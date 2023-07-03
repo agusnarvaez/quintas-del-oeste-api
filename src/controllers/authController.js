@@ -115,6 +115,7 @@ const controller = {
           return res.status(200).json({
             _id: userFound._id,
             name: userFound.name,
+            lastName:userFound.lastName,
             email: userFound.email
           })}
         )
