@@ -12,8 +12,9 @@ const controller = {
     },
     create: async (req, res) => {
         //* Crea un lote nuevo en la base de datos
-        const { number, area, price, reservationPercentage, financiation, coordinates,perimeter } = req.body
-        const lot = new Lot({ number, area, price, reservationPercentage, financiation, coordinates,perimeter })
+        const { number, block, area, price, reservationPercentage, financiation, coordinates,perimeter } = req.body
+        console.log(block)
+        const lot = new Lot({ number, block, area, price, reservationPercentage, financiation, coordinates,perimeter })
         try{
             const lotSaved = await lot.save()
             res.status(200).json({status:"Lote guaradado", lot:lotSaved})
@@ -38,8 +39,8 @@ const controller = {
     },
     update: async (req, res) => {
         //* Actualiza un lote por ID
-        const { number, area, price, reservationPercentage, financiation, coordinates, perimeter } = req.body
-        const newLot = { number, area, price, reservationPercentage, financiation, coordinates,perimeter }
+        const { area, price, reservationPercentage, financiation, coordinates, perimeter } = req.body
+        const newLot = { area, price, reservationPercentage, financiation, coordinates,perimeter }
         try{
             await Lot.findByIdAndUpdate(req.params.id, newLot)
             res.status(200).json({

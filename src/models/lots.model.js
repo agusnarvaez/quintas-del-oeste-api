@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose"
 import User from "./user.model.js"
 //* Schema de los lotes
 const lotSchema = new Schema({
-    number: {type: Number, required: true, unique: true},
+    number: {type: Number, required: true},
+    block: {type: Number, required: true},
     area: {type: Number, required: true},
     price: {type: Number, required: true,min:10000},
     reservationPercentage: {type: Number, required: true, min:0,max:100},

@@ -3,7 +3,7 @@ import { getLotByNumber,getLotById } from "../utils/lotsUtils.js"
 
 const validateCreate = [
     check("number")
-        .exists().bail().withMessage("El campo no existe!")
+        .exists().bail().withMessage("El campo número no existe!")
         .not().isEmpty().bail().withMessage("El número de lote es requerido")
         .isNumeric().bail().withMessage("El número de lote debe ser un valor numérico")
         .custom((value,{req}) => {
@@ -11,18 +11,38 @@ const validateCreate = [
                 //* Si el número de lote es menor a 1, devuelve un error
                 throw new Error("El número de lote debe ser mayor a 0")
             }
-            return true
-        })
-        .custom(async (value,{req}) => {
-            //* Verifica que el número de lote no esté registrado
-            const result = await getLotByNumber(value)
-            if(result){
-                throw new Error("El número de lote ya existe!")
+            if(value > 54){
+                //* Si el número de lote es menor a 1, devuelve un error
+                throw new Error("El número de lote debe ser menor a 55")
             }
             return true
         }),
+    check("block")
+        .exists().bail().withMessage("El campo bloque no existe!")
+        .not().isEmpty().bail().withMessage("El número de manzana es requerido")
+        .isNumeric().bail().withMessage("El número de manzana debe ser un valor numérico")
+        .custom((value,{req}) => {
+            if(value < 1){
+                //* Si el número de lote es menor a 1, devuelve un error
+                throw new Error("El número de manzana debe ser mayor a 0")
+            }
+            if(value > 51){
+                //* Si el número de lote es menor a 1, devuelve un error
+                throw new Error("El número de manzana debe ser menor a 52")
+            }
+            return true
+        })
+        .custom(async (value, { req }) => {
+            //* Verifica que el número de lote no esté registrado en esa manzana
+            const lotNumber = req.body.number; // Obtén el número de lote del cuerpo de la solicitud
+            const result = await getLotByNumber(lotNumber)
+            if (result&&result.block==value) {
+                throw new Error("El número de lote ya existe en esa manzana!");
+            }
+            return true;
+        }),
     check('area')
-        .exists().bail().withMessage("El campo no existe!")
+        .exists().bail().withMessage("El campo área no existe!")
         .not().isEmpty().bail().withMessage("El área del lote es requerido")
         .isNumeric().bail().withMessage("El área del lote debe ser un valor numérico")
         .custom((value,{req}) => {
@@ -33,7 +53,7 @@ const validateCreate = [
             return true
         }),
     check('price')
-        .exists().bail().withMessage("El campo no existe!")
+        .exists().bail().withMessage("El campo precio no existe!")
         .not().isEmpty().bail().withMessage("El precio del lote es requerido")
         .isNumeric().bail().withMessage("El precio del lote debe ser un valor numérico")
         .custom((value,{req}) => {
@@ -44,7 +64,7 @@ const validateCreate = [
             return true
         }),
     check('reservationPercentage')
-        .exists().bail().withMessage("El campo no existe!")
+        .exists().bail().withMessage("El campo porcentaje de reserva no existe!")
         .not().isEmpty().bail().withMessage("El porcentaje de reserva es requerido")
         .isNumeric().bail().withMessage("El porcentaje de reserva del lote debe ser un valor numérico")
         .custom((value,{req}) => {
@@ -55,7 +75,7 @@ const validateCreate = [
             return true
         }),
     check('financiation')
-        .exists().bail().withMessage("El campo no existe!")
+        .exists().bail().withMessage("El campo financiación no existe!")
         .not().isEmpty().bail().withMessage("El financiamiento es requerido!"),
     check('lat').optional(true).bail().isNumeric().withMessage("La latitud del lote debe ser un valor numérico"),
     check('lng').optional(true).isNumeric().bail().withMessage("La longitud del lote debe ser un valor numérico"),
