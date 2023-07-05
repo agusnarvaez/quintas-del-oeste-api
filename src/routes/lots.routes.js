@@ -20,4 +20,6 @@ router.put('/update/:id',authRequired,validateUpdate,lotsController.update) //* 
 
 router.delete("/delete/:id",authRequired,validateDelete,lotsController.delete) //* Ruta para eliminar un lote
 
+router.post('/reserve',lotsController.reserve) //* Ruta para reservar un lote
+
 export default router

@@ -1,6 +1,7 @@
 //* Importo mongoose y el Schema para crear el modelo de datos
 import mongoose, { Schema } from "mongoose"
 import User from "./user.model.js"
+import Reservation from "./reservation.model.js"
 //* Schema de los lotes
 const lotSchema = new Schema({
     number: {type: Number, required: true},
@@ -19,7 +20,7 @@ const lotSchema = new Schema({
         y1:{lat: {type: Number, default:0}, lng: {type: Number, default:0}},
         y2:{lat: {type: Number, default:0}, lng: {type: Number, default:0}}
     },
-    reservationUser: {type: String, default: null}
+    reservation: {type: Schema.Types.ObjectId, ref: Reservation,default:null}
 },{
     timestamps: true //* Crea la fecha de creación y actualización
 })

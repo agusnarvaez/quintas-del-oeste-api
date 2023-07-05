@@ -55,7 +55,6 @@ const validateCreate = [
     check('price')
         .exists().bail().withMessage("El campo precio no existe!")
         .not().isEmpty().bail().withMessage("El precio del lote es requerido")
-        .isNumeric().bail().withMessage("El precio del lote debe ser un valor numérico")
         .custom((value,{req}) => {
             if(value < 10000){
                 //* Si el precio es menor a 10000, devuelve un error
@@ -72,6 +71,7 @@ const validateCreate = [
                 //* Si el porcentaje de reserva es menor a 5 o mayor o igual a 100, devuelve un error
                 throw new Error("El porcentaje de reserva debe ser mayor a 5% y menor a 100%")
             }
+
             return true
         }),
     check('financiation')

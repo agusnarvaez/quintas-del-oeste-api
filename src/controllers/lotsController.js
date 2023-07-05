@@ -1,5 +1,6 @@
 import  Lot  from '../models/lots.model.js'
 import { getAllLots } from '../utils/lotsUtils.js'
+import Reservation from '../models/reservation.model.js'
 const controller = {
     index: async (req, res) => {
         //* Obtiene todos los lotes
@@ -57,6 +58,13 @@ const controller = {
             res.status(200).json({status:"Lote eliminado"})
         }catch(error){
             res.status(400).json({status:"Lote no eliminado"})
+        }
+    },
+    reserve: async (req, res) => {
+        try{
+            console.log(req.body)
+        }catch(error){
+            console.log(error)
         }
     }
 }
