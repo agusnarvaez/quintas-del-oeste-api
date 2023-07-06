@@ -1,6 +1,7 @@
 import  Lot  from '../models/lots.model.js'
 import { getAllLots } from '../utils/lotsUtils.js'
 import Reservation from '../models/reservation.model.js'
+import cache from 'memory-cache'
 const controller = {
     index: async (req, res) => {
         //* Obtiene todos los lotes
@@ -62,7 +63,10 @@ const controller = {
     },
     reserve: async (req, res) => {
         try{
-            console.log(req.body)
+
+            //cache.put('reservation', reservation)
+
+            res.status(200).json({status:"Pago Creado"})
         }catch(error){
             console.log(error)
         }

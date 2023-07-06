@@ -1,6 +1,6 @@
 //* Importo mp para procesar el pago
 import mp from "../utils/mercadoPago.js"
-
+import cache from 'memory-cache'
 const controller = {
     feedback: (req, res) => {
         //* Envía la respuesta de mercado pago a la vista
@@ -23,6 +23,26 @@ const controller = {
 
         }catch(error){
             return res.send(error)
+        }
+    },
+    createOrder: async (req, res) => {
+        try{
+            const reservation = req.body
+            cache.put('reservation', reservation)
+
+            const result = await mp([
+                {
+                    title: `Reserva de lote ${reservation.lot.number} Manzana ${reservation.lot.block}`,
+                    unit_price: Number(reservation.lot.reservationPrice),
+                    currency_id: 'ARS',
+                    quantity: 1,
+                }
+            ])
+
+            const init_point = result.response.init_point
+            res.status(200).json({status:"Pago Creado",/* id:result, */ initPoint: init_point})
+        }catch(error){
+            console.log(error)
         }
     }
 }
