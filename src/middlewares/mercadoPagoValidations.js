@@ -46,7 +46,10 @@ const validatePayment = async (req,res,next) => {
         if(!payment) return res.status(400).json({message:"Autorización denegada"})
 
         //* Verifica que el pago esté aprobado
-        if(payment.body.status !== 'approved'&& payment.body.status !== 'pending' && payment.body.status!=='in_process') return res.status(400).json({message:"Pago no aprobado"})
+        if(payment.body.status !== 'approved'&& payment.body.status !== 'pending' && payment.body.status!=='in_process') return res.status(400).json({
+            message:"Pago no aprobado",
+            payment: { status:payment.body.status}
+        })
 
         //* Verificaciones del pago
         const checks =[
@@ -62,6 +65,10 @@ const validatePayment = async (req,res,next) => {
         //* Agrega los datos del pago a la request
         req.payment_id = req.body.payment_id
         req.payment_status = payment.body.status
+        req.reservationData = reservationData
+
+        //* Limpia la cache de la reserva
+        cache.clear()
 
         next()
 
@@ -82,4 +89,4 @@ const validateResult = (req,res,next) => {
     }
 }
 
-export {validatePayment,preferenceIdValidation as prefereneIdValidation}
+export {validatePayment,preferenceIdValidation}
