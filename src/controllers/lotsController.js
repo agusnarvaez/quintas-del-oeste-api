@@ -94,7 +94,8 @@ const controller = {
                 reservation_id:reservation._id,
                 userEmail:userSaved.email,
                 userName:userSaved.name,
-                lot:lot
+                lot:lot,
+                payment_status: req.body.payment.status
             })
         }catch(error){
             console.log(error)
