@@ -92,19 +92,18 @@ const controller = {
       })
     },
     verify: async (req, res) => {
-      console.log("En verify")
       //* Obtengo el token de la cookie
       const {token}=req.cookies
 
       //* Si no hay token devuelvo un error
-      if(!token) return res.status(401).json({message:"No autorozado!"})
+      if(!token) return res.status(401).json({message:"No autorizado!"})
 
       //* Verifico el token
       verifyAccessToken(
         token,
         async (err,user)=>{
           //* Si hay un error devuelvo un error
-          if(err) return res.status(401).json({message:"No autorozado!"})
+          if(err) return res.status(401).json({message:"No autorizado!"})
 
           //* Busco el usuario en la base de datos
           const userFound = await User.findById(user._id)
