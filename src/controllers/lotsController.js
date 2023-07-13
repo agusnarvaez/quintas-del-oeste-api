@@ -1,7 +1,7 @@
 import  Lot  from '../models/lots.model.js'
-import { getAllLots } from '../utils/lotsUtils.js'
 import Reservation from '../models/reservation.model.js'
-import cache from 'memory-cache'
+import {createUser} from '../utils/userUtils.js'
+import { getAllLots,getLotById } from '../utils/lotsUtils.js'
 const controller = {
     index: async (req, res) => {
         //* Obtiene todos los lotes
@@ -64,9 +64,37 @@ const controller = {
     reserve: async (req, res) => {
         try{
 
-            //cache.put('reservation', reservation)
+            //* Guardo el usuario
+            const user ={
+                name: req.body.reservation.user.name,
+                lastName: req.body.reservation.user.lastName,
+                email: req.body.reservation.user.email,
+                admin: false,
+                password: `Reserva-1234-${req.body.reservation.user.email}`
+            }
+            const userSaved = await createUser(user)
+            console.log(userSaved)
 
-            res.status(200).json({status:"Pago Creado"})
+            //* Creo la reserva
+            const reservation = new Reservation({
+                dni: req.body.reservation.dni,
+                phone: req.body.reservation.phone,
+                documentFile: req.body.reservation.documentFile,
+                idConfirmationFile: req.body.reservation.idConfirmationFile,
+                paymentId: req.body.payment.payment_id,
+                lotId: req.body.reservation.lot._id,
+                userId: userSaved._id
+            })
+            await reservation.save()
+            console.log(reservation)
+            const lot = await Lot.findById(reservation.lotId)
+            res.status(200).json({
+                status:"Lote Reservado",
+                reservation_id:reservation._id,
+                userEmail:userSaved.email,
+                userName:userSaved.name,
+                lot:lot
+            })
         }catch(error){
             console.log(error)
         }
