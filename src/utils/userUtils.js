@@ -1,4 +1,7 @@
+//* Importo el modelo de datos de usuario
 import  User  from '../models/user.model.js'
+//* Importo bcrypt para encriptar la contraseña
+import bcrypt from 'bcryptjs'
 
 //* Obtener todos los usuarios
 const getAllUsers = async () => {
@@ -36,5 +39,30 @@ const getUserByEmail = async (email) => {
   }
 }
 
+const createUser = async (user)=>{
+  //* Encripto la contraseña
+  try{
+    const passHashed = await bcrypt.hash(user.password,10)
+
+  //* Creo el usuario
+  const newUser = new User({
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      password:passHashed,
+      admin: user.admin
+  })
+
+  //* Guardo el usuario
+    const userSaved = await newUser.save()
+
+    return userSaved
+  }catch(e){
+    //* Si hay errores los dev
+    console.error(e)
+    return e
+  }
+
+}
 //* Exporto las funciones
-export {getAllUsers, getUserById,getUserByEmail}
+export {getAllUsers, getUserById,getUserByEmail,createUser}
