@@ -9,7 +9,7 @@ const reservationSchema = new Schema({
     phone: {type: String, required: true},
     documentFile: {type: String, required: true,unique:true},
     idConfirmationFile: {type: String, required: true},
-    paymentConfirmation: {type: String},
+    paymentId: {type: Number, required: true,unique:true},
     lotId: {type: Schema.Types.ObjectId, ref: 'Lot', required: true},
     userId: {type: Schema.Types.ObjectId, ref: User, required: true}
 },{
