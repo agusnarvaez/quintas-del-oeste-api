@@ -63,17 +63,15 @@ const controller = {
     },
     reserve: async (req, res) => {
         try{
-
             //* Guardo el usuario
-            const user ={
+            const userSaved = await createUser({
                 name: req.body.reservation.user.name,
                 lastName: req.body.reservation.user.lastName,
                 email: req.body.reservation.user.email,
                 admin: false,
                 password: `Reserva-1234-${req.body.reservation.user.email}`
-            }
-            const userSaved = await createUser(user)
-            console.log(userSaved)
+            })
+            await userSaved.save()
 
             //* Creo la reserva
             const reservation = new Reservation({
@@ -86,8 +84,11 @@ const controller = {
                 userId: userSaved._id
             })
             await reservation.save()
-            console.log(reservation)
+
+            //* Actualizo el lote
+            await Lot.updateOne({_id:reservation.lotId},{reservation:reservation._id})
             const lot = await Lot.findById(reservation.lotId)
+
             res.status(200).json({
                 status:"Lote Reservado",
                 reservation_id:reservation._id,
