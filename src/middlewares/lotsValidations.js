@@ -95,7 +95,7 @@ const validateGetById = [
         .isAlphanumeric().bail().withMessage("El id del lote debe ser un valor alfanumérico")
         .custom(async (value,{req}) => {
             //* Verifica que el número de lote esté registrado
-            const result = await getLotById(req)
+            const result = await getLotById(req,paras.id)
             if(!result){
                 throw new Error("El número de lote no existe!")
             }
@@ -109,10 +109,11 @@ const validateUpdate = [
     param('id')
         .custom(async (value,{req}) => {
             //* Verifica que el número de lote esté registrado
-            const result = await getLotById(req)
-            if(!result){
-                throw new Error("El número de lote no existe!")
-            }
+            console.log('En validations')
+            /* console.log(req.params.id) */
+            const result = await getLotById(req.params.id)
+            if(!result) throw new Error("El número de lote no existe!")
+
             return true
         }),
     check('area')
@@ -146,10 +147,6 @@ const validateUpdate = [
         }),
     check('lat').optional(true).isNumeric().bail().withMessage("La latitud del lote debe ser un valor numérico"),
     check('lng').optional(true).isNumeric().bail().withMessage("La longitud del lote debe ser un valor numérico"),
-    check('x1').optional(true).isNumeric().bail().withMessage("La coordenada x1 del lote debe ser un valor numérico"),
-    check('x2').optional(true).isNumeric().bail().withMessage("La coordenada x2 del lote debe ser un valor numérico"),
-    check('y1').optional(true).isNumeric().bail().withMessage("La coordenada y1 del lote debe ser un valor numérico"),
-    check('y2').optional(true).isNumeric().bail().withMessage("La coordenada y2 del lote debe ser un valor numérico"),
     (req,res,next) => validateResult(req, res, next)
 ]
 

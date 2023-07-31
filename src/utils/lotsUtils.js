@@ -11,9 +11,9 @@ const getAllLots = async () => {
 }
 
 //* Obtiene un lote por ID
-const getLotById = async (req,res,next) => {
+const getLotById = async (id) => {
     try {
-      const lot = await Lot.findById(req.params.id)
+      const lot = await Lot.findById(id)
       return lot
     } catch (e) {
       return false
