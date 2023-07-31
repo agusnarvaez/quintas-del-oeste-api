@@ -113,7 +113,7 @@ const controller = {
     },
     reservation: async (req, res) => {
         try{
-            const reservation = await Reservation.findById(req.params.id)
+            const reservation = await Reservation.findById(req.params.id).populate('userId', 'name lastName email').exec()
             res.status(200).json({reservation})
         }catch(error){
             res.status(404).json({status:"Reserva no encontrada"})
