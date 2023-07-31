@@ -44,10 +44,11 @@ const controller = {
         const { area, price, reservationPercentage, financiation, coordinates, perimeter } = req.body
         const newLot = { area, price, reservationPercentage, financiation, coordinates,perimeter }
         try{
-            await Lot.findByIdAndUpdate(req.params.id, newLot)
+            const updatedLot = await Lot.findByIdAndUpdate(req.params.id, newLot,{new:true})
+            console.log(updatedLot)
             res.status(200).json({
                 status:"Lote actualizado",
-                lot:newLot
+                lot:updatedLot
             })
         }catch(error){
             res.status(400).json({status:"Lote no actualizado"})

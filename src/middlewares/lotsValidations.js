@@ -109,11 +109,8 @@ const validateUpdate = [
     param('id')
         .custom(async (value,{req}) => {
             //* Verifica que el número de lote esté registrado
-            console.log('En validations')
-            /* console.log(req.params.id) */
             const result = await getLotById(req.params.id)
             if(!result) throw new Error("El número de lote no existe!")
-
             return true
         }),
     check('area')
