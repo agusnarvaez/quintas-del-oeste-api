@@ -101,6 +101,23 @@ const controller = {
         }catch(error){
             console.log(error)
         }
+    },
+    reservations: async (req, res) => {
+        try{
+            const reservations = await Reservation.find().exec()
+            res.status(200).json({reservations})
+        }catch(error){
+            console.log(error)
+            res.status(404).json({status:"Reservas no encontradas"})
+        }
+    },
+    reservation: async (req, res) => {
+        try{
+            const reservation = await Reservation.findById(req.params.id)
+            res.status(200).json({reservation})
+        }catch(error){
+            res.status(404).json({status:"Reserva no encontrada"})
+        }
     }
 }
 
