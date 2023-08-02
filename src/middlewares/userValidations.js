@@ -1,5 +1,7 @@
 import { check,validationResult,param } from "express-validator"
 import { getUserById,getUserByEmail } from "../utils/userUtils.js"
+//* Importo bcrypt para encriptar la contraseña
+import bcrypt from 'bcryptjs'
 
 const validateCreate = [
     check("name")
@@ -42,7 +44,7 @@ const validateGetById = [
     param('id')
         .custom(async (value,{req}) => {
             //* Verifica que el usuario exista
-            const result = await getUserById(req)
+            const result = await getUserById(req.params.id)
             if(!result){
                 throw new Error("El usuario no existe!")
             }
@@ -69,7 +71,22 @@ const validateUpdate = [
         .not().isEmpty().bail().withMessage("El email es requerido"),
     check('password')
         .optional(true)
-        .exists().bail().withMessage("El campo del email no existe")
+        .exists().bail().withMessage("El campo password no existe")
+        .isString().bail().withMessage("La contraseña debe ser un valor alfanumérico")
+        .custom(async (value,{req}) => {
+            //* Verifica que la contraseña exista
+            const result = await getUserById(req.params.id)
+            if(!result){
+                throw new Error("El usuario no existe!")
+            }
+            if(!bcrypt.compareSync(value,result.password)){
+                throw new Error("La contraseña no es correcta!")
+            }
+            return true
+        }),
+    check('newPassword')
+        .optional(true)
+        .exists().bail().withMessage("El campo password no existe")
         .isString().bail().withMessage("La contraseña debe ser un valor alfanumérico"),
     (req,res,next) => validateResult(req, res, next)
 ]
