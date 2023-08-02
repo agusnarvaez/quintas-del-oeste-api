@@ -32,7 +32,7 @@ const controller = {
             const userSaved = await newUser.save()
 
             //* Devuelvo el usuario guardado
-            res.json({
+            res.status(200).json({
                 status:"User saved",
                 user:{
                     _id: userSaved._id,
@@ -73,14 +73,29 @@ const controller = {
     },
     update: async (req, res) => {
         //* Obtengo los datos del body y creo un objeto con los datos a actualizar
-        const { name,lastName,email,password } = req.body
-        const userUpdated = { name,lastName,email,password }
+        const { name,lastName,email,password,newPassword } = req.body
+        //* Armo el modelo de datos del usuario
+        const userToUpdate = { name,lastName,email}
+        //* Si hay contraseña y nueva contraseña encripto la nueva contraseña
+        if(password && newPassword){
+            const passHashed = await bcrypt.hash(newPassword,10)
+            //* Agrego la nueva contraseña al objeto a actualizar
+            userToUpdate.password = passHashed
+        }
+
         try{
             //* Actualizo el usuario
-            const user = await User.findByIdAndUpdate(req.params.id, userUpdated)
-
+            const user = await User.findByIdAndUpdate(req.params.id, userToUpdate,{new:true})
+            if(!user) return res.status(400).json({message:"El usuario no existe!"})
+            const userUpdated ={
+                _id: user._id,
+                name: user.name,
+                lastName: user.lastName,
+                email: user.email,
+                admin: user.admin
+            }
             //* Devuelvo el usuario actualizado
-            res.json({status:"User updated"})
+            res.status(200).json({status:"User updated",user:userUpdated})
         }catch(err){
             //* Si hay errores los devuelvo
             res.status(400).json({message:"Error al actualizar el usuario!"})

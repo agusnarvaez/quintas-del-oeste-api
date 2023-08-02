@@ -116,7 +116,8 @@ const controller = {
             name: userFound.name,
             lastName:userFound.lastName,
             email: userFound.email
-          })}
+          })
+        }
         )
     }
 }
