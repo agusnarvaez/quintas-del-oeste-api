@@ -15,15 +15,15 @@ const getAllUsers = async () => {
 }
 
 //* Obtener un usuario por ID
-const getUserById = async (req,res,next) => {
+const getUserById = async (id) => {
     try {
       //* Busco el usuario en la base de datos
-      const user = await User.findById(req.params.id)
+      const user = await User.findById(id)
       return user
 
     } catch (e) {
       //* Si hay errores los devuelvo
-      return res.status(400).json({message:"Usuario no encontrado!"})
+      return e
     }
 }
 
