@@ -15,8 +15,7 @@ const controller = {
     create: async (req, res) => {
         //* Crea un lote nuevo en la base de datos
         const { number, block, area, price, reservationPercentage, financiation, coordinates,perimeter } = req.body
-        console.log(block)
-        const lot = new Lot({ number, block, area, price, reservationPercentage, financiation, coordinates,perimeter })
+        const lot = new Lot({ number, block, area, price, reservationPercentage, financiation, coordinates })
         try{
             const lotSaved = await lot.save()
             res.status(200).json({status:"Lote guaradado", lot:lotSaved})
