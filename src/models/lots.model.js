@@ -8,7 +8,7 @@ const lotSchema = new Schema({
     block: {type: Number, required: true},
     area: {type: Number, required: true},
     price: {type: Number, required: true,min:10000},
-    reservationPercentage: {type: Number, required: true, min:0,max:100},
+    /* reservationPercentage: {type: Number, required: true, min:0,max:100}, */
     financiation: {type: Boolean, required: true, default: false},
     coordinates: {
         lat: {type: Number, default:0},
