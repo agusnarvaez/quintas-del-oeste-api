@@ -63,6 +63,7 @@ const validateCreate = [
             return true
         }),
     check('reservationPercentage')
+        .optional(true)
         .exists().bail().withMessage("El campo porcentaje de reserva no existe!")
         .not().isEmpty().bail().withMessage("El porcentaje de reserva es requerido")
         .isNumeric().bail().withMessage("El porcentaje de reserva del lote debe ser un valor numérico")
@@ -75,6 +76,7 @@ const validateCreate = [
             return true
         }),
     check('financiation')
+        .optional(true)
         .exists().bail().withMessage("El campo financiación no existe!")
         .not().isEmpty().bail().withMessage("El financiamiento es requerido!"),
     check('lat').optional(true).bail().isNumeric().withMessage("La latitud del lote debe ser un valor numérico"),
