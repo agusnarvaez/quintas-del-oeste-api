@@ -46,8 +46,6 @@ const controller = {
             const reservation = req.body
             await cache.put('reservation', reservation, 300000)
 
-
-
             const result = await mp([
                 {
                     title: `Reserva de lote ${reservation.lot.number} Manzana ${reservation.lot.block}`,
@@ -56,12 +54,15 @@ const controller = {
                     quantity: 1,
                 }
             ])
-            //* Crea el token del ID de las preferencias y lo guarda en una cookie
-            const preferenceIdToken = await createAccessToken({preference_id:result.response.id})
-            res.cookie('preferenceIdToken',preferenceIdToken)
-
-            const init_point = result.response.init_point
-            res.status(200).json({status:"Pago Creado",/* id:result, */ initPoint: init_point})
+            if(result){
+                //* Crea el token del ID de las preferencias y lo guarda en una cookie
+                const preferenceIdToken = await createAccessToken({preference_id:result.response.id})
+                res.cookie('preferenceIdToken',preferenceIdToken)
+                const init_point = result.response.init_point
+                res.status(200).json({status:"Pago Creado",/* id:result, */ initPoint: init_point})
+            }else{
+                res.status(400).json({status:"Error al crear el pago"})
+            }
         }catch(error){
             console.log(error)
         }
