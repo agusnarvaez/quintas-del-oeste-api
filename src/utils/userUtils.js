@@ -31,34 +31,33 @@ const getUserById = async (id) => {
 const getUserByEmail = async (email) => {
   try {
     //* Busco el usuario en la base de datos
-    const user = await User.find({email: email})
-    return user
+    return await User.findOne({email: email})
   }catch(e){
     //* Si hay errores los devuelvo
     console.error(e)
   }
 }
-
 const createUser = async (user)=>{
   //* Encripto la contraseña
   try{
-    const passHashed = await bcrypt.hash(user.password,10)
+    const existentUser = await getUserByEmail(user.email)
+    if(existentUser) return existentUser
 
-  //* Creo el usuario
-  const newUser = new User({
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-      password:passHashed,
-      admin: user.admin
-  })
+      //* Si el usuario no existe, lo creo
+      const passHashed = await bcrypt.hash(user.password,10) //* Encripto la contraseña
 
-  //* Guardo el usuario
-    const userSaved = await newUser.save()
+      const newUser = new User({
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+        password:passHashed,
+        admin: user.admin
+      })
+      const userSaved = await newUser.save() //* Guardo el usuario
+      return userSaved  //* Retorno el usuario
 
-    return userSaved
   }catch(e){
-    //* Si hay errores los dev
+    //* Si hay errores los devuelvo
     console.error(e)
     return e
   }

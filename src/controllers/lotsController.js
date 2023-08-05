@@ -1,4 +1,5 @@
 import  Lot  from '../models/lots.model.js'
+import  User  from '../models/user.model.js'
 import Reservation from '../models/reservation.model.js'
 import {createUser} from '../utils/userUtils.js'
 import { getAllLots,getLotById } from '../utils/lotsUtils.js'
@@ -71,7 +72,6 @@ const controller = {
                 admin: false,
                 password: `Reserva-1234-${req.body.reservation.user.email}`
             })
-            await userSaved.save()
 
             //* Creo la reserva
             const reservation = new Reservation({
