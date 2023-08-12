@@ -12,7 +12,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 ngrok.exe
-
+.dockerignore
+Dockerfile
+fly.toml
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
