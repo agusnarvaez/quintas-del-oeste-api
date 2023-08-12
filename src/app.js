@@ -28,7 +28,7 @@ const app = express()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 //* Configuro el puerto
-app.set('port',process.env.PORT || 3030)
+app.set('port',process.env.PORT || 3000)
 
 //* Inicializo middlewares
 app.use(cors({
