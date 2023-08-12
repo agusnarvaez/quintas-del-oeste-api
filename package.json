@@ -29,5 +29,8 @@
     "supertest": "^6.3.3",
     "testcafe": "^2.6.2"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.3"
+  }
 }
