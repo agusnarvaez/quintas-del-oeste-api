@@ -7,7 +7,7 @@ import {connectDB} from "./database.js"
 connectDB()
 
 //* Inicializo el servidor
-app.listen(app.get('port'),()=>{
+app.listen(app.get('port'),'0.0.0.0',()=>{
     console.log("Server on port http://localhost:"+app.get('port'))
 })
 
