@@ -33,8 +33,11 @@ app.set('port',process.env.PORT || 3000)
 //* Inicializo middlewares
 app.use(cors({
     origin: ['http://localhost:3000','http://localhost:45678','https://testing.barrioquintas.com.ar','testing.barrioquintas.com.ar'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 })) // Para que el servidor entienda cors
+app.options('*', cors()) // Respuesta para las solicitudes OPTIONS
+
 app.use(morgan('dev')) // Mensaje formateado como dev
 app.use(express.json()) // Para que el servidor entienda json
 app.use(cookieParser()) // Para que el servidor entienda cookies
