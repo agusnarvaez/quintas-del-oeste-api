@@ -3,7 +3,7 @@ import { validationResult } from "express-validator"
 
 import {verifyAccessToken} from '../utils/jwt.js'
 import cache from 'memory-cache'
-import credentials from "../../credentials.js"
+import credentials from "../credentials.js"
 import mercadopago from "mercadopago"
 import {checkDateOfPayment} from '../utils/dateUtils.js'
 
