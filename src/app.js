@@ -32,7 +32,7 @@ app.set('port',process.env.PORT || 3030)
 
 //* Inicializo middlewares
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000','http://localhost:45678'],
     credentials: true
 })) // Para que el servidor entienda cors
 app.use(morgan('dev')) // Mensaje formateado como dev

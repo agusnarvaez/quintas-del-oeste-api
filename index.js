@@ -1,7 +1,7 @@
 //* Importo la aplicación
 import app from "./src/app.js"
 //* Importo la conexión a la base de datos
-import {connectDB} from "./database.js"
+import {connectDB} from "./src/database.js"
 
 //* Conecto la base de datos
 connectDB()

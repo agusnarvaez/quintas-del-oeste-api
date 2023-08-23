@@ -2,7 +2,7 @@
 import { check,validationResult } from "express-validator"
 import { getUserByEmail } from "../utils/userUtils.js"
 import jwt from "jsonwebtoken"
-import credentials from "../../credentials.js"
+import credentials from "../credentials.js"
 const validateRegister = [
     check('email')
         .custom(async (value,{req}) => {

@@ -1,7 +1,7 @@
 //* 1- Importar mercadopago
 import mercadopago from "mercadopago"
 //* 2- Importar credenciales
-import credentials from "../../credentials.js"
+import credentials from "../credentials.js"
 
 //* 3- Obtener el server desde las variables de entorno
 let server = process.env.SERVER || 'http://localhost:3000'

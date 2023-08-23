@@ -1,7 +1,7 @@
 //* Importo la librería jsonwebtoken para crear el token de acceso
 import jwt from 'jsonwebtoken'
 //* Importo las credenciales
-import credentials from '../../credentials.js'
+import credentials from '../credentials.js'
 
 //* Función para crear el token de acceso
 const createAccessToken = (payload) => {
