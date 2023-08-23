@@ -37,9 +37,11 @@ const controller = {
 
       try {
         //* Busco el usuario en la base de datos
-        const userFound = await (await axios.post('http://localhost:3030/api/user/get', {email:email})).data
-
+        /* const userFound = await (await axios.post('http://localhost:3030/api/user/get', {email:email})).data */
+        const userFound = await User.findOne({email:req.body.email})
         //* Si no existe el usuario devuelvo un error
+        if(!userFound) return res.status(400).json({errors:[{msg:"Usuario o contraseña inválidos!"}]})
+
         const isMatch = await bcrypt.compare(password,userFound.password)
         if(!isMatch) return res.status(400).json({errors:[{msg:"Usuario o contraseña inválidos!"}]})
 
