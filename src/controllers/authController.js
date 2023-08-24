@@ -1,6 +1,3 @@
-//* Importo axios para hacer las peticiones a la API de usuarios
-import axios from 'axios'
-
 //* Importo bcrypt para encriptar la contraseña
 import bcrypt from 'bcryptjs'
 
@@ -17,18 +14,43 @@ const controller = {
       const { name,lastName,email,password,admin } = req.body
 
       try {
+        //* Encripto la contraseña
+        const passHashed = await bcrypt.hash(password,10)
+
         //* Creo el usuario en la base de datos
-        const response = await axios.post('http://localhost:3030/api/user/create', req.body)
+        const newUser = new User({
+            name,
+            lastName,
+            email,
+            password:passHashed,
+            admin
+        })
+
+        //* Guardo el usuario
+        const userSaved = await newUser.save()
 
         //* Creo el token de acceso (JWT) y lo guardo en una cookie
-        const token = await createAccessToken({id:response.data.user._id})
+        const token = await createAccessToken({id:userSaved._id})
         res.cookie('token',token)
 
+        //* Creo el usuario a devolver
+        const userToSend = {
+          _id: userSaved._id,
+          name: userSaved.name,
+          lastName: userSaved.lastName,
+          email: userSaved.email,
+          admin: userSaved.admin,
+          createdAt: userSaved.createdAt,
+          updatedAt: userSaved.updatedAt
+        }
+
         //* Devuelvo el usuario creado
-        res.json(response.data)
+        res.status(200).json({message: "Se ha guardado el usuario con éxito!", user:userToSend})
+
       } catch (error) {
         //* Si hay errores los devuelvo
-        res.status(500).json({errors:error.response.data.errors})
+        console.log(error)
+        res.status(500).json({errors:error})
       }
     },
     login: async (req, res) => {
@@ -37,7 +59,6 @@ const controller = {
 
       try {
         //* Busco el usuario en la base de datos
-        /* const userFound = await (await axios.post('http://localhost:3030/api/user/get', {email:email})).data */
         const userFound = await User.findOne({email:req.body.email})
         //* Si no existe el usuario devuelvo un error
         if(!userFound) return res.status(400).json({errors:[{msg:"Usuario o contraseña inválidos!"}]})
@@ -64,8 +85,8 @@ const controller = {
         })
       } catch (error) {
         //* Si hay errores los devuelvo
-        console.log(error.response.data)
-        res.status(500).json({errors:error.response.data.errors})
+        console.log(error)
+        res.status(500).json({errors:error})
       }
     },
     logout: async (req, res) => {
