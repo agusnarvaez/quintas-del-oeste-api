@@ -20,7 +20,8 @@ const validateCreate = [
         .custom(async (value,{req}) => {
             //* Verifica que el email no esté registrado
             const user = await getUserByEmail(value)
-            if(user.length > 0){
+
+            if(user && user.email.length > 0){
                 throw new Error("El email ya se encuentra registrado!")
             }
             return true
