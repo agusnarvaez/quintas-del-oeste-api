@@ -2,14 +2,15 @@ import express from "express"
 const router = express.Router()
 
 //* Middlewares
-import {validateRegister,authRequired} from "../middlewares/authValidations.js"
+import {authRequired} from "../middlewares/authValidations.js"
+import {validateCreate} from "../middlewares/userValidations.js"
 
 //* Controllers
 import authController from "../controllers/authController.js"
 
 //************************************************************************
 //* Rutas
-router.post('/register',validateRegister,authController.register) //* Ruta para registar un usuario
+router.post('/register',validateCreate,authController.register) //* Ruta para registar un usuario
 
 router.post('/login',authController.login) //* Ruta para loguear un usuario
 
