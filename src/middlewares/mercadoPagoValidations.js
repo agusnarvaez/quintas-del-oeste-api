@@ -21,16 +21,18 @@ const preferenceIdValidation = async (req,res,next) => {
         preferenceIdToken,
         async (err,preference_id)=>{
           //* Si hay un error devuelvo un error
-          if(err) return res.status(401).json({message:"Autorización denegada!"})
+        if(err) return res.status(401).json({message:"Autorización denegada!"})
 
           //* Si no hay token o no coincide con el token de la cookie devuelvo un error
-          if((!preference_id || !preferenceIdOnBody)
-            && (preferenceIdOnBody !== preference_id))
-                return res.status(401).json({message:"Autorización denegada!"})
+        if((!preference_id || !preferenceIdOnBody)
+        && (preferenceIdOnBody !== preference_id))
+            return res.status(401).json({message:"Autorización denegada!"})
 
         //* Si no hay errores borro el token de la cookie y continúo con la ejecución
-        res.cookie('preferenceIdToken','',{expires:new Date(0)})
-
+        res.cookie('preferenceIdToken','',{expires:new Date(0)},{
+            sameSite: 'None',
+            secure: true // Asegúrate de que estás utilizando HTTPS
+        })
         }
     )
     next()

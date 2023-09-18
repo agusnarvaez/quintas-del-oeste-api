@@ -31,7 +31,10 @@ const controller = {
 
         //* Creo el token de acceso (JWT) y lo guardo en una cookie
         const token = await createAccessToken({id:userSaved._id})
-        res.cookie('token',token)
+        res.cookie('token',token,{
+          sameSite: 'None',
+          secure: true // Asegúrate de que estás utilizando HTTPS
+        })
 
         //* Creo el usuario a devolver
         const userToSend = {
@@ -68,7 +71,10 @@ const controller = {
 
         //* Creo el token de acceso (JWT) y lo guardo en una cookie
         const token = await createAccessToken({_id:userFound._id})
-        res.cookie('token',token)
+        res.cookie('token',token,{
+          sameSite: 'None',
+          secure: true // Asegúrate de que estás utilizando HTTPS
+        })
 
         //* Devuelvo el usuario logueado
         res.json({
@@ -91,7 +97,10 @@ const controller = {
     },
     logout: async (req, res) => {
       //* Borro la cookie del token
-      res.cookie('token','',{expires:new Date(0)})
+      res.cookie('token','',{expires:new Date(0)},{
+        sameSite: 'None',
+        secure: true // Asegúrate de que estás utilizando HTTPS
+      })
 
       //* Devuelvo un mensaje de que se deslogueo correctamente
       return res.status(200).json({message:"Logged out"})

@@ -57,7 +57,10 @@ const controller = {
             if(result){
                 //* Crea el token del ID de las preferencias y lo guarda en una cookie
                 const preferenceIdToken = await createAccessToken({preference_id:result.response.id})
-                res.cookie('preferenceIdToken',preferenceIdToken)
+                res.cookie('preferenceIdToken',preferenceIdToken,{
+                    sameSite: 'None',
+                    secure: true // Asegúrate de que estás utilizando HTTPS
+                })
                 const init_point = result.response.init_point
                 res.status(200).json({status:"Pago Creado",/* id:result, */ initPoint: init_point})
             }else{
