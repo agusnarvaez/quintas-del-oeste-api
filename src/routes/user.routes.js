@@ -17,10 +17,10 @@ router.get('/:id',validateGetById,userController.read) //* Ruta para obtener un 
 
 router.post('/get',userController.getByEmail) //* Ruta para obtener un usuario por email
 
-router.post('/create',validateCreate,userController.create) //* Ruta para crear un usuario
+router.post('/',validateCreate,userController.create) //* Ruta para crear un usuario
 
-router.put('/update/:id',validateUpdate,userController.update) //* Ruta para actualizar un usuario
+router.put('/:id',validateUpdate,userController.update) //* Ruta para actualizar un usuario
 
-router.delete("/delete/:id",validateDelete,userController.delete) //* Ruta para eliminar un usuario
+router.delete("/:id",validateDelete,userController.delete) //* Ruta para eliminar un usuario
 
 export default router
