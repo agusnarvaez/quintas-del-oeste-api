@@ -43,7 +43,7 @@ app.use(express.json()) // Para que el servidor entienda json
 app.use(cookieParser()) // Para que el servidor entienda cookies
 
 //* Rutas de la API
-app.use('/api/lots',lotsRoutes)
+app.use('/api/lot',lotsRoutes)
 app.use('/api/mercadoPago',mercadoPagoRoutes)
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)

@@ -19,11 +19,11 @@ router.get('/reservations/:id',lotsController.reservation) //* Ruta para obtener
 router.get('/:id',validateGetById,lotsController.read) //* Ruta para obtener un lote por ID
 
 
-router.post('/create',authRequired,validateCreate,lotsController.create) //* Ruta para crear un lote
+router.post('/',authRequired,validateCreate,lotsController.create) //* Ruta para crear un lote
 
-router.put('/update/:id',authRequired,validateUpdate,lotsController.update) //* Ruta para actualizar un lote
+router.put('/:id',authRequired,validateUpdate,lotsController.update) //* Ruta para actualizar un lote
 
-router.delete("/delete/:id",authRequired,validateDelete,lotsController.delete) //* Ruta para eliminar un lote
+router.delete("/:id",authRequired,validateDelete,lotsController.delete) //* Ruta para eliminar un lote
 
 router.post('/reserve',lotsController.reserve) //* Ruta para reservar un lote
 

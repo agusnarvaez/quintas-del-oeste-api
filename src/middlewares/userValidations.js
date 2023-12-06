@@ -32,7 +32,7 @@ const validateCreate = [
         .isString().bail().withMessage("La contraseña debe ser un valor alfanumérico")
         .not().isEmpty().bail().withMessage("La contraseña es requerida")
         .isLength({min:8}).bail().withMessage("La contraseña debe tener al menos 8 caracteres")
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+        .matches(/^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)[a-zA-ZñÑ\d@#$%&*!?^¿¡]{8,}$/)
             .bail()
             .withMessage("La contraseña debe tener al menos una mayúscula, una minúscula y un número"),
     check('admin')
