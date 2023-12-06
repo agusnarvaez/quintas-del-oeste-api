@@ -97,7 +97,7 @@ const validateGetById = [
         .isAlphanumeric().bail().withMessage("El id del lote debe ser un valor alfanumérico")
         .custom(async (value,{req}) => {
             //* Verifica que el número de lote esté registrado
-            const result = await getLotById(req,paras.id)
+            const result = await getLotById(req.params.id)
             if(!result){
                 throw new Error("El número de lote no existe!")
             }
